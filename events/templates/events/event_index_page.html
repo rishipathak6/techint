@@ -1,0 +1,230 @@
+{% extends "club_home/base.html" %}
+
+{% load wagtailcore_tags wagtailimages_tags %}
+
+{% block body_class %}template-eventsindexpage{% endblock %}
+
+{%block slugurl%}{{page.get_parent.slug}}{%endblock%}
+
+{%block name%}{{page.get_parent.title}}{%endblock%}
+{%block title%}Events - {{page.get_parent.title}}{%endblock%}
+
+{%block navbargenerator%}<li><a href='/'>Technical Board Home</a></li><li><a href='/' id='homelink'>Home</a></li>
+{%for pgc in page.get_parent.get_children %}
+{%ifequal pgc.slug page.slug%}
+<li class='active'><a href="/{{page.get_parent.slug}}/{{pgc.slug}}">{{pgc.title}}</a></li>
+{%else%}
+<li><a href="/{{page.get_parent.slug}}/{{pgc.slug}}">{{pgc.title}}</a></li>
+{%endifequal%}
+{%endfor%}
+{%endblock%}
+{%block customstyles%}
+h1{
+text-align:center;
+font-family: 'Asap', sans-serif;
+font-size:60px;
+}
+.intro{
+margin-left:20px;
+margin-right:20px;
+text-align: justify;
+-moz-text-align-last: center;
+text-align-last: center;
+font-family: 'Asap', sans-serif;
+font-size:30px;	
+}
+.heading{
+	text-align:center;
+font-family: 'Asap', sans-serif;
+font-size:40px;
+}
+
+
+.activeevent{
+	position:relative;
+	padding:0px;
+	padding-bottom:10px;
+	border:1px solid black;
+	border-radius:5px;
+}
+.inactiveevent{
+	position:relative;
+	padding:0px;
+	padding-bottom:10px;
+	border:1px solid #6a7e85;
+	border-radius:5px;
+}
+.activehead{
+	padding-top:12px;
+	padding-bottom:12px;
+	font-size:30px;
+	text-align:center;
+	font-family: 'Raleway', sans-serif;
+	padding:10px;
+	margin-top:0px;
+	margin-left:0px;
+	margin-right:0px;
+	background-color:black;
+	color:white;
+}
+.inactivehead{
+	padding-top:12px;
+	padding-bottom:12px;
+	font-size:30px;
+	text-align:center;
+	font-family: 'Raleway', sans-serif;
+	padding:10px;
+	margin-top:0px;
+	margin-left:0px;
+	margin-right:0px;
+	background-color:#6a7e85;
+	color:white;
+}
+.info, .intro2{
+padding-left:25px;
+padding-right:25px;
+font-size:18px;
+	font-family: 'Raleway', sans-serif;
+	text-align: justify;
+-moz-text-align-last: center;
+text-align-last: center;
+}
+.photosrow{
+	padding-top:25px;
+	padding-bottom:25px;
+}
+.eventrow{
+	padding-top:12px;
+	padding-bottom:12px;
+}
+
+
+.hideContent {
+    overflow: hidden;
+    line-height: 1em;
+    height: 1em;
+}
+
+.showContent {
+    line-height: 1em;
+    height: auto;
+}
+.showContent{
+    height: auto;
+}
+
+.show-more {
+    padding: 10px 0;
+    text-align: center;
+}
+.eventcontent{
+	padding-top:10px;
+}
+{%endblock%}
+
+{% block content %}
+<br>
+<h1 class="margin-setter">{{ page.title }}</h1>
+<div class="intro margin-setter">{{ page.intro|richtext }}</div>
+
+<h2 class="heading margin-setter" >Upcoming/Ongoing Events</h2>
+{%if active_events%}
+
+<div class="row eventrow margin-setter">
+	{% for item in active_events  %}
+	{%if forloop.counter0|divisibleby:2 %}
+	</div>
+	<div class="row photosrow margin-setter">
+	{%endif%}
+		<div class="col-xs-6 events">
+			<div class="col-md-12 activeevent">
+				<h3 class="activehead"> {{ item.title }} </h3>
+				<div class="eventcontent">
+				    <div class="intro2 content hideContent">
+				    {{ item.intro|richtext }}
+				    </div>
+				    <div class="show-more">
+				        <a href="#">Show more</a>
+				    </div>
+				    </div>
+				<p class="info">Event Starts At :{{ item.start }}<br>
+				Event Ends At :{{ item.end }}<br>
+				Location :{{ item.venue }}
+				</p>
+		     </div>
+		</div>
+	{% endfor %}
+</div>
+{%else%}
+<div class="intro"> Keep Looking Here. </div>
+{%endif%}
+
+<h2 class="heading margin-setter" style="color: #6a7e85;" >Past Events</h2>
+{%if inactive_events%}
+<div class="row eventrow margin-setter">
+{% for item in inactive_events  %}		
+	{%if forloop.counter0|divisibleby:2 %}
+	</div>
+	<div class="row photosrow margin-setter">
+	{%endif%}	
+<div class="col-xs-6 events">
+			<div class="col-md-12 inactiveevent">
+<h3 class="inactivehead"> {{ item.title }} </h3>
+
+				<div class="eventcontent">
+<div class="intro2 content hideContent">
+				    {{ item.intro|richtext }}
+				    </div>
+				    <div class="show-more">
+				        <a href="#">Show more</a>
+				    </div>
+				    </div>
+<p class="info"> Event Ended On: {{item.end.date}}</p>
+</div>
+</div>
+{% endfor %}
+</div>
+{%else%}
+<div class="intro" style="color:#6a7e85"> Nothing Here Yet. </div>
+{%endif%}
+<br>
+<br>
+<script type="text/javascript">
+$(".show-more a").on("click", function() {
+    var $this = $(this); 
+    var $content = $this.parent().prev("div.content");
+    var linkText = $this.text().toUpperCase();    
+    
+    if(linkText === "SHOW MORE"){
+        linkText = "Show less";
+        $content.switchClass("hideContent", "showContent", 400);
+    } else {
+        linkText = "Show more";
+        $content.switchClass("showContent", "hideContent", 400);
+    };
+
+    $this.text(linkText);
+    return false;
+});
+
+</script>
+{% endblock %}
+
+{%block socialicons%}
+          {%if page.get_parent.specific.facebook_link%}
+          <a href="{{page.get_parent.specific.facebook_link}}"><i class="contact-links fa fa-facebook fa-3x"  onmouseover="this.style.color='#3b5998'" onmouseout="this.style.color='white'"></i></a> &nbsp;
+          {%endif%}
+          {%if page.get_parent.specific.twitter_link%}
+          <a href="{{page.get_parent.specific.twitter_link}}"><i class="contact-links fa fa-twitter fa-3x" onmouseover="this.style.color='#00aced'" onmouseout="this.style.color='white'" ></i></a> &nbsp;
+          {%endif%}
+          {%if page.get_parent.specific.youtube_link%}
+          <a href="{{page.get_parent.specific.youtube_link}}"><i class="contact-links fa fa-youtube-play fa-3x" onmouseover="this.style.color='#bb0000'" onmouseout="this.style.color='white'"></i></a> &nbsp;
+          {%endif%}
+          {%if page.get_parent.specific.googleplus_link%}
+          <a href="{{page.get_parent.specific.googleplus_link}}"><i class="contact-links fa fa-google-plus fa-3x social-gp" onmouseover="this.style.color='#d34836'" onmouseout="this.style.color='white'"></i></a> &nbsp;
+          {%endif%}
+          {%if page.get_parent.specific.emailaddress%}
+          <a href="mailto:{{page.get_parent.specific.emailaddress}}"><i class="contact-links fa fa-envelope fa-3x" onmouseover="this.style.color='#fbbc05'" onmouseout="this.style.color='white'"></i></a> 
+          {%endif%}
+
+{%endblock%}

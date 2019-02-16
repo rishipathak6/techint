@@ -1,0 +1,59 @@
+{% extends "club_home/base.html" %}
+
+{% load wagtailcore_tags wagtailimages_tags %}
+
+{% block body_class %}template-eventsindexpage{% endblock %}
+
+{%block slugurl%}{{page.get_parent.slug}}{%endblock%}
+{%block name%}{{page.get_parent.title}}{%endblock%}
+{%block navbargenerator%}<li><a href='/'>Technical Board Home</a></li>
+{%for pgc in page.get_parent.get_children %}
+{%ifequal pgc.slug page.slug%}
+<li class='active'><a href="/{{pgc.slug}}">{{pgc.title}}</a></li>
+{%else%}
+<li><a href="/{{pgc.slug}}">{{pgc.title}}</a></li>
+{%endifequal%}
+{%endfor%}
+{%endblock%}
+
+{% block content %}
+
+    {% if request.GET.tag|length %}
+        <h4>Showing pages tagged "{{ request.GET.tag }}"</h4>
+    {% endif %}
+
+    {% for storypage in storypages %}
+
+          <p>
+              <strong><a href="{% pageurl storypage %}">{{ storypage.title }}</a></strong><br />
+              <small>Revised: {{ storypage.latest_revision_created_at }}</small><br />
+              {% if storypage.author %}
+                <p>By {{ storypage.author }}</p>
+              {% endif %}
+          </p>
+
+    {% empty %}
+        No pages found with that tag.
+    {% endfor %}
+
+{% endblock %}
+
+
+{%block socialicons%}
+          {%if page.get_parent.specific.facebook_link%}
+          <a href="{{page.get_parent.specific.facebook_link}}"><i class="contact-links fa fa-facebook fa-3x"  onmouseover="this.style.color='#3b5998'" onmouseout="this.style.color='white'"></i></a> &nbsp;
+          {%endif%}
+          {%if page.get_parent.specific.twitter_link%}
+          <a href="{{page.get_parent.specific.twitter_link}}"><i class="contact-links fa fa-twitter fa-3x" onmouseover="this.style.color='#00aced'" onmouseout="this.style.color='white'" ></i></a> &nbsp;
+          {%endif%}
+          {%if page.get_parent.specific.youtube_link%}
+          <a href="{{page.get_parent.specific.youtube_link}}"><i class="contact-links fa fa-youtube-play fa-3x" onmouseover="this.style.color='#bb0000'" onmouseout="this.style.color='white'"></i></a> &nbsp;
+          {%endif%}
+          {%if page.get_parent.specific.googleplus_link%}
+          <a href="{{page.get_parent.specific.googleplus_link}}"><i class="contact-links fa fa-google-plus fa-3x social-gp" onmouseover="this.style.color='#d34836'" onmouseout="this.style.color='white'"></i></a> &nbsp;
+          {%endif%}
+          {%if page.get_parent.specific.emailaddress%}
+          <a href="mailto:{{page.get_parent.specific.emailaddress}}"><i class="contact-links fa fa-envelope fa-3x" onmouseover="this.style.color='#fbbc05'" onmouseout="this.style.color='white'"></i></a> 
+          {%endif%}
+
+{%endblock%}

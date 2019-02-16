@@ -1,0 +1,147 @@
+{% extends "club_home/base.html" %}
+
+{% load wagtailcore_tags wagtailimages_tags wagtailembeds_tags %}
+
+{% block body_class %}template-eventsindexpage{% endblock %}
+
+{%block slugurl%}{{page.get_parent.get_parent.slug}}{%endblock%}
+
+{%block name%}{{page.get_parent.get_parent.title}}{%endblock%}
+
+{%block title%}{{page.title}} - {{page.get_parent.get_parent.title}}{%endblock%}
+
+{%block navbargenerator%}<li><a href='/'>Technical Board Home</a></li><li><a href='/' id='homelink'>Home</a></li>
+{%for pgc in page.get_parent.get_parent.get_children %}
+{%ifequal pgc.slug page.get_parent.slug%}
+<li class='active'><a href="/{{page.get_parent.get_parent.slug}}/{{pgc.slug}}">{{pgc.title}}</a></li>
+{%else%}
+<li><a href="/{{page.get_parent.get_parent.slug}}/{{pgc.slug}}">{{pgc.title}}</a></li>
+{%endifequal%}
+{%endfor%}
+{%endblock%}
+
+{%block customstyles%}
+  h1{
+  text-align:center;
+  font-family: 'Asap', sans-serif;
+  font-size:60px;
+  padding-top:40px;
+  padding-bottom:12px;
+  }
+  .intro{
+  padding-top:12px;
+  padding-bottom:12px;
+  margin-left:20px;
+  margin-right:20px;
+  text-align: justify;
+  -moz-text-align-last: center;
+  text-align-last: center;
+  font-family: 'Asap', sans-serif;
+  font-size:30px;	
+  }
+  .heading{
+  	text-align:center;
+  font-family: 'Asap', sans-serif;
+  font-size:40px;
+  padding-top:12px;
+  padding-bottom:12px;
+  }
+  .eventrow{
+  	margin:5px;
+  }
+
+  .info, .intro2{
+  padding-left:10px;
+  padding-right:10px;
+  font-size:18px;
+  	font-family: 'Raleway', sans-serif;
+  	text-align: justify;
+  -moz-text-align-last: center;
+  text-align-last: center;
+  }
+
+  .descrip, .introduction{
+  padding-top:12px;
+  padding-bottom:12px;
+  	margin:20px;
+  	font-family:'Raleway',sans-serif;
+  	font-size:18px;
+  }
+  .photorow{
+  padding-top:15px;
+  padding-bottom:15px;
+      position:relative;
+      width:63.4%;
+  }
+  .image{
+      display:block;
+      max-width:100%;
+      border:2px solid #d9fce3;
+  width:100%;
+  }
+  .document, .link{
+  padding-top:12px;
+  padding-bottom:12px;
+  	margin:20px;
+  	font-size:18px;
+  	font-family: 'Asap', sans-serif;
+  }
+  .gist{
+  padding-top:12px;
+  padding-bottom:12px;
+  	margin-left:18.3%;
+  	margin-right:18.3%;
+  }
+  .images{
+  	padding:0px;
+  }
+{%endblock%}
+
+{% block content %}
+
+    <h1 class="margin-setter">{{ page.title }}</h1>
+    <h4 class="intro margin-setter">{{ page.start}} - {%if page.end%}{{page.end}}{%else%}Ongoing{%endif%}</h4>
+    <h3 class="introduction margin-setter">{{page.intro}}</h3>
+    {% for block in page.body %}
+    	{%if block.block_type == 'Gist'%}
+			{%autoescape off%}{{ block.value }}{%endautoescape%}
+		{%elif block.block_type == 'Images'%}
+			<div class="row photorow margin-setter"><div class='col-xs-12 images'>
+        	    {%image block.value fill-1280x720-c100 as tmp%}<img src='{{tmp.url}}' class='image'/>
+            </div></div>
+		{%elif block.block_type == 'Descrip'%}
+			<div class="descrip margin-setter">{{ block.value|richtext}}</div>
+		{%elif block.block_type == 'Link'%}
+			<div class="link margin-setter"> Visit : <a href="{{ block.value.URL }}" >{{block.value.Text}}</a></div>
+		{%elif block.block_type == 'video'%}
+			<div class="margin-setter" style="padding-top:12px; padding-bottom:12px;">
+			<div class="embed-responsive embed-responsive-16by9 ">
+    			{%embed block.value.url%}
+     		</div>
+     		</div>
+		{%elif block.block_type == 'Documents'%}
+			<div class="document margin-setter"> Download File : {%autoescape off%}{{ block }}{%endautoescape%} <i class="fa fa-download" aria-hidden="true" style="color:#4c7eb7;"></i> </div>
+		{%endif%}
+    {% endfor %}
+	<br>
+	<br>
+{% endblock %}
+	
+{%block socialicons%}
+          {%if page.get_parent.get_parent.specific.facebook_link%}
+          <a href="{{page.get_parent.get_parent.specific.facebook_link}}"><i class="contact-links fa fa-facebook fa-3x"  onmouseover="this.style.color='#3b5998'" onmouseout="this.style.color='white'"></i></a> &nbsp;
+          {%endif%}
+          {%if page.get_parent.get_parent.specific.twitter_link%}
+          <a href="{{page.get_parent.get_parent.specific.twitter_link}}"><i class="contact-links fa fa-twitter fa-3x" onmouseover="this.style.color='#00aced'" onmouseout="this.style.color='white'" ></i></a> &nbsp;
+          {%endif%}
+          {%if page.get_parent.get_parent.specific.youtube_link%}
+          <a href="{{page.get_parent.get_parent.specific.youtube_link}}"><i class="contact-links fa fa-youtube-play fa-3x" onmouseover="this.style.color='#bb0000'" onmouseout="this.style.color='white'"></i></a> &nbsp;
+          {%endif%}
+          {%if page.get_parent.get_parent.specific.googleplus_link%}
+          <a href="{{page.get_parent.get_parent.specific.googleplus_link}}"><i class="contact-links fa fa-google-plus fa-3x social-gp" onmouseover="this.style.color='#d34836'" onmouseout="this.style.color='white'"></i></a> &nbsp;
+          {%endif%}
+          {%if page.get_parent.get_parent.specific.emailaddress%}
+          <a href="mailto:{{page.get_parent.get_parent.specific.emailaddress}}"><i class="contact-links fa fa-envelope fa-3x" onmouseover="this.style.color='#fbbc05'" onmouseout="this.style.color='white'"></i></a> 
+          {%endif%}
+
+{%endblock%}
