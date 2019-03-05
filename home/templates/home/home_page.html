@@ -3,13 +3,13 @@
 {% load wagtailcore_tags %}
 {% load wagtailcore_tags wagtailimages_tags wagtailembeds_tags %}
 
-{% block body_class %}template-eventsindexpage{% endblock %}
+{% block body_class %}template-homepage{% endblock %}
 {%block title%}{{ page.title }}{%endblock%}
 
 
 {%block content%}
 <header class="header text-white h-fullscreen p-0 overflow-hidden" data-overlay="7">
-  <video class="bg-video" src="static/img/video/{{page.title}}.mp4" poster="static/img/video/1.jpg" autoplay loop></video>
+  <video class="bg-video" src="static/img/video/{{page.title}}.mp4" poster="static/img/video/{{page.title}}.jpg" autoplay loop></video>
   <div class="container text-center">
     <div class="row h-100">
       <div class="col-lg-8 mx-auto align-self-center pt-10">
@@ -47,8 +47,8 @@
         | Populate the page
         |‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒
         !-->
-        {% if aevent%}
-        <section class="section"  >
+        {% if aevent %}
+        <section class="section">
 
           <div class="container">
             <header class="section-header">
@@ -67,11 +67,12 @@
                   <a href="#">{%image item.thumbnail fill-320x180-c100 as tmp%}<img class="card-img-top" src="{{tmp.url}}" alt="Card image cap"></a>
                   <div class="card-body">
                     <div style="text-align: center">
-                      <h5 class="card-title">{{ item.title }}</h5></div>
-                      <p>
+                      <h5 class="card-title lead-3">{{ item.title }}</h5></div>
+                      <p style="text-align: center;">
                       <a href="/{{item.page.get_parent.slug}}">{{item.page.get_parent}}</a>
-                      <br>Starts at: {{item.start}}<br>Ends at: {{item.end}}<br> Location: {{item.venue}}
+                      <br> Starts at: {{item.start}} <br> Ends at: {{item.end}} <br> Location: {{item.venue}}
                       </p>
+                      <p style="text-align: center;">{{item.intro|richtext}}</p>
                       <div style="text-align: center">
                         <a class="btn btn-outline-primary" href="#">Read More</a></div>
                       </div>
@@ -85,248 +86,6 @@
 
             </section>  
             {%endif%}
-
-
-
-
-<!--  <section class="section"  >
-        <div class="container">
-          <header class="section-header">
-            <h2 class="display-3 fw-400" style="padding-top: 40px">Clubs</h2>
-          </header>
-          <!--<div class="row gap-y gap-3" data-shuffle="list">
-            <div class="col-12 col-lg-4" data-shuffle="item" data-groups="bag,box" text-align = "center" data-aos="fade-up" data-aos-duration="250" data-aos-delay="00">
-              <a class="portfolio-1" href="#" data-toggle="modal" data-target="#modal-portfolio">
-                <img src="static/img/clubs intro/Acumen.jpg" alt="screenshot">
-                <div class="portfolio-detail">
-                    <img src="static/img/clubs intro/Acumen2.jpg" alt="screenshot" height="100px" width="100px">
-            <h2>Acumen</h2>
-                  <p>Quiz Club</p>
-                </div>
-              </a>
-            </div>
-            
-            
-            <div class="col-12 col-lg-4 align-self-baseline" data-shuffle="item" data-groups="bag,box"  data-aos="fade-up" data-aos-duration="250" data-aos-delay="100">
-              <a class="portfolio-1" href="#" data-toggle="modal" data-target="#modal-portfolio">
-                <img src="static/img/clubs intro/Aero.jpg" alt="screenshot">
-                <div class="portfolio-detail">
-                    <img src="static/img/clubs intro/AeromodellingClub.jpg" alt="screenshot" height="100px" width="100px">
-            <h2>Aeromodelling</h2>
-                  <p>Club</p>
-                </div>
-              </a>
-             </div>
-            
-            
-            <div class="col-12 col-lg-4" data-shuffle="item" data-groups="bag,box" data-aos="fade-up" data-aos-duration="250" data-aos-delay="150">
-              <a class="portfolio-1" href="#" data-toggle="modal" data-target="#modal-portfolio">
-                <img src="static/img/clubs intro/Auto(2).jpg" alt="screenshot">
-                <div class="portfolio-detail">
-                    <img src="static/img/clubs intro/GreenAutomobileClub.jpg" alt="screenshot" height="100px" width="100px">
-            <h2>Automobile</h2>
-                  <p>Club</p>
-                </div>
-              </a>
-            </div>
-            
-            
-            <div class="col-12 col-lg-4" data-shuffle="item" data-groups="bag,box" data-aos="fade-up" data-aos-duration="250" data-aos-delay="00">
-              <a class="portfolio-1" href="#" data-toggle="modal" data-target="#modal-portfolio">
-                <img src="static/img/clubs intro/Coding(2).jpg" alt="screenshot">
-                <div class="portfolio-detail">
-                    <img src="static/img/clubs intro/CodingClub(1).jpg" alt="screenshot" height="100px" width="100px">
-            <h2>Coding</h2>
-                  <p>Club</p>
-                </div>
-              </a>
-            </div>
-            
-            <div class="col-12 col-lg-4" data-shuffle="item" data-groups="bag,box" data-aos="fade-up" data-aos-duration="250" data-aos-delay="100">
-              <a class="portfolio-1" href="#" data-toggle="modal" data-target="#modal-portfolio">
-                <img src="static/img/clubs intro/Coding(2).jpg" alt="screenshot">
-                <div class="portfolio-detail">
-                    <img src="static/img/clubs intro/ConsultingandAnalyticsClub.jpg" alt="screenshot" height="100px" width="100px">
-            <h2>Consulting and</h2>
-                  <p>Analytics Club</p>
-                </div>
-              </a>
-            </div>
-            
-            <div class="col-12 col-lg-4" data-shuffle="item" data-groups="bag,box" data-aos="fade-up" data-aos-duration="250" data-aos-delay="150">
-              <a class="portfolio-1" href="#" data-toggle="modal" data-target="#modal-portfolio">
-                <img src="static/img/clubs intro/Electro(2).jpg" alt="screenshot">
-                <div class="portfolio-detail">
-                    <img src="static/img/clubs intro/ElectronicsClub2.jpg" alt="screenshot" height="100px" width="100px">
-            <h2>Electronics</h2>
-                  <p>Club</p>
-                </div>
-              </a>
-            </div>
-            
-            <div class="col-12 col-lg-4" data-shuffle="item" data-groups="bag,box" data-aos="fade-up" data-aos-duration="250" data-aos-delay="00">
-              <a class="portfolio-1" href="#" data-toggle="modal" data-target="#modal-portfolio">
-                <img src="static/img/clubs intro/EDCworkshop(2).jpg" alt="screenshot">
-                <div class="portfolio-detail">
-                    <img src="static/img/clubs intro/EDC.jpg" alt="screenshot" height="100px" width="100px">
-            <h2>E-Cell</h2>
-                  <p></p>
-                </div>
-              </a>
-            </div>
-            
-            <div class="col-12 col-lg-4 align-self-center" data-shuffle="item" data-groups="bag,box" data-aos="fade-up" data-aos-duration="250" data-aos-delay="100">
-              <a class="portfolio-1" href="#" data-toggle="modal" data-target="#modal-portfolio">
-                <img src="static/img/clubs intro/equi(2).jpg" alt="screenshot">
-                <div class="portfolio-detail">
-                    <img src="static/img/clubs intro/equinox.png" alt="screenshot" height="100px" width="100px">
-            <h2>Equinox</h2>
-                  <p>Astronomy Club</p>
-                </div>
-              </a>
-            </div>  
-            
-            <div class="col-12 col-lg-4 align-self-center" data-shuffle="item" data-groups="bag,box" data-aos="fade-up" data-aos-duration="250" data-aos-delay="150">
-              <a class="portfolio-1" href="#" data-toggle="modal" data-target="#modal-portfolio">
-                <img src="static/img/clubs intro/Finance(2).jpg" alt="screenshot">
-                <div class="portfolio-detail">
-                    <img src="static/img/clubs intro/FinanceandEconomics.jpg" alt="screenshot" height="100px" width="100px">
-            <h2>Finance and</h2>
-                  <p>Economics Club</p>
-                </div>
-              </a>
-            </div>
-            
-            <div class="col-12 col-lg-4" data-shuffle="item" data-groups="bag,box" data-aos="fade-up" data-aos-duration="250" data-aos-delay="00">
-              <a class="portfolio-1" href="#" data-toggle="modal" data-target="#modal-portfolio">
-                <img src="static/img/clubs intro/Prakritibg(2).jpg" alt="screenshot">
-                <div class="portfolio-detail">
-                    <img src="static/img/clubs intro/Prakriti.png" alt="screenshot" height="100px" width="100px">
-            <h2>Prakriti</h2>
-                  <p>Club</p>
-                </div>
-              </a>
-            </div>
-            
-            
-            
-            <div class="col-12 col-lg-4" data-shuffle="item" data-groups="bag,box" data-aos="fade-up" data-aos-duration="250" data-aos-delay="100">
-              <a class="portfolio-1" href="#" data-toggle="modal" data-target="#modal-portfolio">
-                <img src="static/img/clubs intro/robotics(2).jpg" alt="screenshot">
-                <div class="portfolio-detail">
-                    <img src="static/img/clubs intro/RoboticsClub.jpg" alt="screenshot" height="100px" width="100px">
-            <h2>Robotics</h2>
-                  <p>Club</p>
-                </div>
-              </a>
-            </div>
-            
-            
-            
-          </div>-->
-        <!--  <div class="row gap-y-2" style="margin-top: -30px; margin-bottom: 30px">
-            <div class="col-12 col-lg-4 hover-shadow-4" data-aos="fade-up" data-aos-duration="250" data-aos-delay="00">
-              <a href="../basic/resources/AcumenResources.html">
-                <div class="card text-white justify-content-end bg-img h-400" style="background-image: url(static/img/Acumen3.jpg);background-size: 75%" data-scrim-bottom="5">
-                  <div class="card-body flex-grow-0">
-                    <h3 class="card-title fw-200" style=" text-align: center;">Acumen : Quiz Club</h3>
-                  </div>
-                </div>
-              </a>
-            </div>
-            <div class="col-12 col-lg-4 hover-shadow-4" data-aos="fade-up" data-aos-duration="250" data-aos-delay="50">
-              <a href="../basic/resources/AeroResources.html">
-                <div class="card text-white justify-content-end bg-img h-400" style="background-image: url(static/img/resources/AeromodellingClub.jpg);background-size: 65%" data-scrim-bottom="5">
-                  <div class="card-body flex-grow-0">
-                    <h3 class="card-title fw-200" style="text-align: center;">Aeromodelling Club</h3>
-                  </div>
-                </div>
-              </a>
-            </div>
-            <div class="col-12 col-lg-4 hover-shadow-4" data-aos="fade-up" data-aos-duration="250" data-aos-delay="100">
-              <a href="../basic/resources/AutoResources.html">
-                <div class="card text-white justify-content-end bg-img h-400" style="background-image: url(../basic/static/img/resources/auto.jpg);background-size: 75%" data-scrim-bottom="5">
-                  <div class="card-body flex-grow-0">
-                    <h3 class="card-title fw-200" style="text-align: center;">Automobile Club</h3>
-                  </div>
-                </div>
-              </a>
-            </div>
-            <div class="col-12 col-lg-4 hover-shadow-4" data-aos="fade-up" data-aos-duration="250" data-aos-delay="00">
-              <a href="../basic/resources/CodingResources.html">
-                <div class="card text-white justify-content-end bg-img h-400" style="background-image: url(static/img/resources/codingclub.jpg);background-size: 75%" data-scrim-bottom="5">
-                  <div class="card-body flex-grow-0">
-                    <h3 class="card-title fw-200" style="text-align: center;">Coding Club</h3>
-                  </div>
-                </div>
-              </a>
-            </div>
-            <div class="col-12 col-lg-4 hover-shadow-4" data-aos="fade-up" data-aos-duration="250" data-aos-delay="50">
-              <a href="../basic/resources/CnAResources.html">
-                <div class="card text-white justify-content-end bg-img h-400" style="background-image: url(static/img/resources/cna.jpg);background-size: 75%" data-scrim-bottom="5">
-                  <div class="card-body flex-grow-0">
-                    <h3 class="card-title fw-200" style="text-align: center;">Consulting and Analytics Club</h3>
-                  </div>
-                </div>
-              </a>
-            </div>
-            <div class="col-12 col-lg-4 hover-shadow-4" data-aos="fade-up" data-aos-duration="250" data-aos-delay="100">
-              <a href="../basic/resources/ElectronicsResources.html">
-                <div class="card text-white justify-content-end bg-img h-400" style="background-image: url(static/img/resources/ElectronicsClub2.jpg);background-size: 55%" data-scrim-bottom="5">
-                  <div class="card-body flex-grow-0">
-                    <h3 class="card-title fw-200" style="text-align: center;">Electronics Club</h3>
-                  </div>
-                </div>
-              </a>
-            </div>
-            <div class="col-12 col-lg-4 hover-shadow-4" data-aos="fade-up" data-aos-duration="250" data-aos-delay="00">
-              <a href="../basic/resources/EDCResources.html">
-                <div class="card text-white justify-content-end bg-img h-400" style="background-image: url(static/img/resources/EDC.jpg);background-size: 68%" data-scrim-bottom="5">
-                  <div class="card-body flex-grow-0">
-                    <h3 class="card-title fw-200" style="text-align: center;">Entrepreneurship Development Cell</h3>
-                  </div>
-                </div>
-              </a>
-            </div>
-            <div class="col-12 col-lg-4 hover-shadow-4" data-aos="fade-up" data-aos-duration="250" data-aos-delay="50">
-              <a href="../basic/resources/EquinoxResources.html">
-                <div class="card text-white justify-content-end bg-img h-400" style="background-image: url(static/img/resources/equinox.png);background-size: 60%" data-scrim-bottom="5">
-                  <div class="card-body flex-grow-0">
-                    <h3 class="card-title fw-200" style="text-align: center;">Equinox : Astronomy Club</h3>
-                  </div>
-                </div>
-              </a>
-            </div>
-            <div class="col-12 col-lg-4 hover-shadow-4" data-aos="fade-up" data-aos-duration="250" data-aos-delay="100">
-              <a href="../basic/resources/FnEResources.html">
-                <div class="card text-white justify-content-end bg-img h-400" style="background-image: url(static/img/resources/fne.jpg);background-size: 80%" data-scrim-bottom="5">
-                  <div class="card-body flex-grow-0">
-                    <h3 class="card-title fw-200" style="text-align: center;">Finance and Economics Club</h3>
-                  </div>
-                </div>
-              </a>
-            </div>
-            <div class="col-12 col-lg-4 hover-shadow-4" data-aos="fade-up" data-aos-duration="250" data-aos-delay="00">
-              <a href="../basic/resources/PrakritiResources.html">
-                <div class="card text-white justify-content-end bg-img h-400" style="background-image: url(static/img/resources/Prakriti.png);background-size: 65%" data-scrim-bottom="5">
-                  <div class="card-body flex-grow-0">
-                    <h3 class="card-title fw-200" style="text-align: center;">Prakriti Club</h3>
-                  </div>
-                </div>
-              </a>
-            </div>
-            <div class="col-12 col-lg-4 hover-shadow-4" style="grid-row-start: 3;grid-row-end: 4; grid-column-start: 3;grid-column-end: 4" data-aos="fade-up" data-aos-duration="250" data-aos-delay="50">
-              <a href="../basic/resources/RoboticsResources.html">
-                <div class="card text-white justify-content-end bg-img h-400" style="background-image: url(static/img/resources/RoboticsClub.jpg);background-size: 70%" data-scrim-bottom="5">
-                  <div class="card-body flex-grow-0">
-                    <h3 class="card-title fw-200" style="text-align: center;">Robotics Club</h3>
-                  </div>
-                </div>
-              </a>
-            </div>
-          </div>
-        </div>
-      </section>  -->
       
 
 

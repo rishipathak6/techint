@@ -81,7 +81,7 @@ class HomePage(Page):
         ImageChooserPanel('feed_image'),
     ]
     
-    subpage_types = ['club_home.ClubHomePage','story.StoryTagIndexPage']
+    subpage_types = ['club_home.ClubHomePage','story.StoryTagIndexPage','events.EventIndexPage']
 
     def get_context(self, request):
         # Update context to include only published posts, ordered by reverse-chron
